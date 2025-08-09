@@ -19,17 +19,24 @@ def zwfhq():
         length += 1
     return zwf
 
-# 统一的占位符映射
-placeholder_map = {}
+# 使用两个独立的映射
+quote_map = {}
+bracket_map = {}
 
-def replace(m):
+def replace_quotes(m):
     full = m.group(0)
     key = zwfhq()
-    placeholder_map[key] = full
+    quote_map[key] = full
     return key
 
-# 第一步：处理引号和注释
-pattern = re.compile(r'''
+def replace_brackets(m):
+    full = m.group(0)
+    key = zwfhq()
+    bracket_map[key] = full
+    return key
+
+# 第一步：替换引号和注释
+quote_pattern = re.compile(r'''
     (?P<dquote>"[^"\\]*(?:\\.[^"\\]*)*")     # 双引号
     |
     (?P<squote>'[^'\\]*(?:\\.[^'\\]*)*')     # 单引号
@@ -37,33 +44,28 @@ pattern = re.compile(r'''
     (?P<comment>\#.*)                        # 注释
 ''', re.X)
 
-processed = pattern.sub(replace, code)
+processed = quote_pattern.sub(replace_quotes, code)
 print('第一步替换后（引号和注释）：')
 print(processed)
 
-# 第二步：处理大括号和中括号（跳过已存在的占位符）
-brace_pattern = regex.compile(r'''
+# 第二步：替换大括号和中括号
+bracket_pattern = regex.compile(r'''
     (?P<brace>\{(?:[^{}]|(?P>brace))*\})     # 递归匹配大括号
     |
     (?P<square>\[(?:[^\[\]]|(?P>square))*\])     # 递归匹配中括号
 ''', re.X)
 
-# 修改replace函数，避免替换已存在的占位符
-original_replace = replace
-def replace_bracket(m):
-    full = m.group(0)
-    # 检查是否包含已存在的占位符
-    for key in placeholder_map:
-        if key in full:
-            return full  # 如果包含占位符，不替换
-    return original_replace(m)
-
-processed = brace_pattern.sub(replace_bracket, processed)
+processed = bracket_pattern.sub(replace_brackets, processed)
 print('第二步替换后（大括号和中括号）：')
 print(processed)
 
-# 统一还原
-for key, original in placeholder_map.items():
+# 分阶段还原：先还原括号，再还原引号
+sorted_brackets = sorted(bracket_map.items(), key=lambda x: len(x[0]), reverse=True)
+for key, original in sorted_brackets:
+    processed = processed.replace(key, original)
+
+sorted_quotes = sorted(quote_map.items(), key=lambda x: len(x[0]), reverse=True)
+for key, original in sorted_quotes:
     processed = processed.replace(key, original)
 
 print('最终还原后：')
