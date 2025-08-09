@@ -65,12 +65,13 @@ processed = bracket_pattern.sub(replace_brackets, processed)
 
 
 # 简化版行合并逻辑
+# 简化后的核心处理逻辑
 lines = processed.splitlines(True)
 out = []
 i = 0
 
 while i < len(lines):
-    if i + 1 < len(lines):
+    if i+1 < len(lines):
         match = re.match(
             r'^(\s*)(async\s+)?(?!\b(?:if|else|elif|for|while|try|except|finally|with|class|True|False)\b)(\w+)\s*:(.*)$',
             lines[i]
@@ -93,10 +94,6 @@ while i < len(lines):
     i += 1
 
 processed = ''.join(out)
-
-# 替换 async 为 async def
-processed = processed.replace("async ", "async def ")
-
 
 
 
