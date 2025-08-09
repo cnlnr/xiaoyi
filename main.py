@@ -1,13 +1,7 @@
 import re, random, string, regex
 
-code = '''
-# 列表例子
-这是一个列表例子：[1, 2, 3, 4, 5] # 这是一个列表例子：
-这里有一个嵌套列表：[[1, 2], [3, 4], [5, 6]]"hello"
-混合类型列表：[1, "hello", 3.14, True]
-这是一个字典例子：{"name": "Alice", "age": 25, "city": "New York"}
-嵌套字典：{"person": {"name": "Bob", "age": 30}, "job": "Engineer"}
-'''
+code = open('实验.xy',  encoding='utf-8').read()
+
 
 # 生成占位符
 def zwfhq():
@@ -44,20 +38,71 @@ quote_pattern = re.compile(r'''
     (?P<comment>\#.*)                        # 注释
 ''', re.X)
 
+# 第一步替换后（引号和注释）
 processed = quote_pattern.sub(replace_quotes, code)
-print('第一步替换后（引号和注释）：')
-print(processed)
 
-# 第二步：替换大括号和中括号
+# 第二步：替换大括号中和括号
 bracket_pattern = regex.compile(r'''
     (?P<brace>\{(?:[^{}]|(?P>brace))*\})     # 递归匹配大括号
     |
     (?P<square>\[(?:[^\[\]]|(?P>square))*\])     # 递归匹配中括号
 ''', re.X)
 
+# 第二步替换后（大括号中和括号）
 processed = bracket_pattern.sub(replace_brackets, processed)
-print('第二步替换后（大括号和中括号）：')
+
+
+
+
+
+
+
+
+
+
+
+
+# 简化版行合并逻辑
+# 简化后的核心处理逻辑
+lines = processed.splitlines(True)
+out = []
+i = 0
+
+while i < len(lines):
+    if i+1 < len(lines):
+        # 匹配token行
+        match = re.match(r'^(\s*)(\w+)\s*:(.*)$', lines[i])
+        if match:
+            indent, token, tail = match.groups()
+            # 获取第二行并去除前导空白
+            next_line = lines[i+1].lstrip()
+            if next_line.startswith('('):
+                # 找到(，拼接
+                param = next_line.split('\n', 1)[0]
+                out.append(f"{indent}{token}{param}:{tail}\n")
+                i += 2
+                continue
+            else:
+                # 没找到(，改成()
+                out.append(f"{indent}{token}():{tail}\n")
+                i += 1
+                continue
+    
+    out.append(lines[i])
+    i += 1
+
+processed = ''.join(out)
+
+
 print(processed)
+
+
+
+
+
+
+
+
 
 # 分阶段还原：先还原括号，再还原引号
 sorted_brackets = sorted(bracket_map.items(), key=lambda x: len(x[0]), reverse=True)
@@ -70,8 +115,3 @@ for key, original in sorted_quotes:
 
 print('最终还原后：')
 print(processed)
-
-
-
-
-
