@@ -28,7 +28,7 @@ def replace(m):
     placeholder_map[key] = full
     return key
 
-# 正确的正则表达式（使用原始字符串）
+# 第一步：处理引号和注释
 pattern = re.compile(r'''
     (?P<dquote>"[^"\\]*(?:\\.[^"\\]*)*")     # 双引号
     |
@@ -38,17 +38,28 @@ pattern = re.compile(r'''
 ''', re.X)
 
 processed = pattern.sub(replace, code)
-print('替换后：')
+print('第一步替换后（引号和注释）：')
 print(processed)
 
-pattern = regex.compile(r'''
+# 第二步：处理大括号和中括号（跳过已存在的占位符）
+brace_pattern = regex.compile(r'''
     (?P<brace>\{(?:[^{}]|(?P>brace))*\})     # 递归匹配大括号
     |
     (?P<square>\[(?:[^\[\]]|(?P>square))*\])     # 递归匹配中括号
 ''', re.X)
 
-processed = pattern.sub(replace, code)
-print('替换后：')
+# 修改replace函数，避免替换已存在的占位符
+original_replace = replace
+def replace_bracket(m):
+    full = m.group(0)
+    # 检查是否包含已存在的占位符
+    for key in placeholder_map:
+        if key in full:
+            return full  # 如果包含占位符，不替换
+    return original_replace(m)
+
+processed = brace_pattern.sub(replace_bracket, processed)
+print('第二步替换后（大括号和中括号）：')
 print(processed)
 
 # 统一还原
