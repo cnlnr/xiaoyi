@@ -1,7 +1,6 @@
 import re, random, string, regex
 
-code = open('实验.xy',  encoding='utf-8').read()
-
+code = open('实验.xy', encoding='utf-8').read()
 
 # 生成占位符
 def zwfhq():
@@ -53,17 +52,6 @@ bracket_pattern = regex.compile(r'''
 # 第二步替换后（大括号中和括号）
 processed = bracket_pattern.sub(replace_brackets, processed)
 
-
-
-
-
-
-
-
-
-
-
-
 # 简化版行合并逻辑
 # 简化后的核心处理逻辑
 lines = processed.splitlines(True)
@@ -94,15 +82,8 @@ while i < len(lines):
 
 processed = ''.join(out)
 
-
-
-
-
-
-
-
-
-
+# 修复 async 关键字语法错误
+processed = processed.replace("async ", "async def ")
 
 # 分阶段还原：先还原括号，再还原引号
 sorted_brackets = sorted(bracket_map.items(), key=lambda x: len(x[0]), reverse=True)
@@ -116,4 +97,5 @@ for key, original in sorted_quotes:
 print("="*80)
 print(processed)
 print("="*80)
+
 exec(processed)
