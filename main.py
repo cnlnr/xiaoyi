@@ -71,23 +71,22 @@ out = []
 i = 0
 
 while i < len(lines):
-    if i+1 < len(lines):
+    if i + 1 < len(lines):
         match = re.match(
             r'^(\s*)(async\s+)?(?!\b(?:if|else|elif|for|while|try|except|finally|with|class|True|False)\b)(\w+)\s*:(.*)$',
             lines[i]
         )
-
         if match:
             indent, prefix, func, tail = match.groups()
-            prefix = prefix or ''
+            prefix = prefix or ''          # 无 async 时设空
             next_line = lines[i+1].lstrip()
             if next_line.startswith('('):
                 param = next_line.split('\n', 1)[0]
-                out.append(f"{indent}{prefix}def {func}{param}:{tail}\n")
+                out.append(f"{indent}{prefix}def {func}{param}:{tail}")
                 i += 2
                 continue
             else:
-                out.append(f"{indent}{prefix}def {func}():{tail}\n")
+                out.append(f"{indent}{prefix}def {func}():{tail}")
                 i += 1
                 continue
     out.append(lines[i])
