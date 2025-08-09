@@ -36,6 +36,8 @@ quote_pattern = re.compile(r'''
     (?P<squote>'[^'\\]*(?:\\.[^'\\]*)*')     # 单引号
     |
     (?P<comment>\#.*)                        # 注释
+    |
+    (?P<walrus>:=)                           # 海象
 ''', re.X)
 
 # 第一步替换后（引号和注释）
@@ -70,7 +72,13 @@ i = 0
 
 while i < len(lines):
     if i+1 < len(lines):
-        match = re.match(r'^(\s*)(\w+)\s*:(.*)$', lines[i])
+        match = re.match(
+            r'^(\s*)'
+            r'(?!if|else|elif|for|while|try|except|finally|with|class)\b'
+            r'(\S+)\s*:(.*)$',
+            lines[i]
+        )
+
         if match:
             indent, token, tail = match.groups()
             next_line = lines[i+1].lstrip()
