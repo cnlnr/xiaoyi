@@ -74,7 +74,8 @@ while i < len(lines):
     if i+1 < len(lines):
         match = re.match(
             r'^(\s*)'
-            r'(?!if|else|elif|for|while|try|except|finally|with|class)\b'
+            r'(?!if|else|elif|for|while|try|except|finally|with|class|True|False)\b'
+
             r'(\S+)\s*:(.*)$',
             lines[i]
         )
@@ -97,7 +98,6 @@ while i < len(lines):
 processed = ''.join(out)
 
 
-print(processed)
 
 
 
@@ -116,5 +116,7 @@ sorted_quotes = sorted(quote_map.items(), key=lambda x: len(x[0]), reverse=True)
 for key, original in sorted_quotes:
     processed = processed.replace(key, original)
 
-print('最终还原后：')
+print("="*80)
 print(processed)
+print("="*80)
+exec(processed)
