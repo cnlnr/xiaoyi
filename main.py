@@ -70,24 +70,19 @@ i = 0
 
 while i < len(lines):
     if i+1 < len(lines):
-        # 匹配token行
         match = re.match(r'^(\s*)(\w+)\s*:(.*)$', lines[i])
         if match:
             indent, token, tail = match.groups()
-            # 获取第二行并去除前导空白
             next_line = lines[i+1].lstrip()
             if next_line.startswith('('):
-                # 找到(，拼接
                 param = next_line.split('\n', 1)[0]
-                out.append(f"{indent}{token}{param}:{tail}\n")
+                out.append(f"{indent}def {token}{param}:{tail}\n")
                 i += 2
                 continue
             else:
-                # 没找到(，改成()
-                out.append(f"{indent}{token}():{tail}\n")
+                out.append(f"{indent}def {token}():{tail}\n")
                 i += 1
                 continue
-    
     out.append(lines[i])
     i += 1
 
