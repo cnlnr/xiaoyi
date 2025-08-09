@@ -1,6 +1,7 @@
 import re, random, string, regex
 
-code = open('实验.xy', encoding='utf-8').read()
+code = open('实验.xy',  encoding='utf-8').read()
+
 
 # 生成占位符
 def zwfhq():
@@ -52,8 +53,18 @@ bracket_pattern = regex.compile(r'''
 # 第二步替换后（大括号中和括号）
 processed = bracket_pattern.sub(replace_brackets, processed)
 
+
+
+
+
+
+
+
+
+
+
+
 # 简化版行合并逻辑
-# 简化后的核心处理逻辑
 lines = processed.splitlines(True)
 out = []
 i = 0
@@ -64,17 +75,18 @@ while i < len(lines):
             r'^(\s*)(async\s+)?(?!\b(?:if|else|elif|for|while|try|except|finally|with|class|True|False)\b)(\w+)\s*:(.*)$',
             lines[i]
         )
+
         if match:
             indent, prefix, func, tail = match.groups()
-            prefix = prefix or ''          # 无 async 时设空
+            prefix = prefix or ''
             next_line = lines[i+1].lstrip()
             if next_line.startswith('('):
                 param = next_line.split('\n', 1)[0]
-                out.append(f"{indent}{prefix}def {func}{param}:{tail}")
+                out.append(f"{indent}{prefix}def {func}{param}:{tail}\n")
                 i += 2
                 continue
             else:
-                out.append(f"{indent}{prefix}def {func}():{tail}")
+                out.append(f"{indent}{prefix}def {func}():{tail}\n")
                 i += 1
                 continue
     out.append(lines[i])
@@ -82,8 +94,19 @@ while i < len(lines):
 
 processed = ''.join(out)
 
-# 修复 async 关键字语法错误
+# 替换 async 为 async def
 processed = processed.replace("async ", "async def ")
+
+
+
+
+
+
+
+
+
+
+
 
 # 分阶段还原：先还原括号，再还原引号
 sorted_brackets = sorted(bracket_map.items(), key=lambda x: len(x[0]), reverse=True)
@@ -97,5 +120,4 @@ for key, original in sorted_quotes:
 print("="*80)
 print(processed)
 print("="*80)
-
 exec(processed)
