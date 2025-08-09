@@ -2,8 +2,8 @@ import re, random, string, regex
 
 code = '''
 # 列表例子
-这是一个列表例子：[1, 2, 3, 4, 5]
-这里有一个嵌套列表：[[1, 2], [3, 4], [5, 6]]
+这是一个列表例子：[1, 2, 3, 4, 5] # 这是一个列表例子：
+这里有一个嵌套列表：[[1, 2], [3, 4], [5, 6]]"hello"
 混合类型列表：[1, "hello", 3.14, True]
 这是一个字典例子：{"name": "Alice", "age": 25, "city": "New York"}
 嵌套字典：{"person": {"name": "Bob", "age": 30}, "job": "Engineer"}
