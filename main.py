@@ -64,6 +64,7 @@ processed = bracket_pattern.sub(replace_brackets, processed)
 
 # 中文替换
 zwyfc = {
+    "打印", "print"
 
 }
 for k, v in zwyfc.items():
