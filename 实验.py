@@ -1,17 +1,11 @@
-def no_param():
-    print("hello world")
+def calculate_stats(
+        numbers,  # 位置参数
+        **kwargs  # 可变关键字参数
+     -> float
 
-def Positional(name:str):
-    print(f"hello {name}")
-
-def Keyword(name) -> None:
-    print(f"hello {name}")
-
-def Default(name="world"):
-    print(f"hello {name}")
-
-
-no_param()
-Positional("world")
-Keyword(name="world")
-Default()
+    result = 0
+    if operation == "sum":
+        result = sum(numbers, *args):
+    elif operation == "avg":
+        result = sum(numbers, *args) / (len(numbers) + len(args))
+    return round(result, precision)

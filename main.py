@@ -62,10 +62,23 @@ processed = bracket_pattern.sub(replace_brackets, processed)
 
 
 
+# 中文替换
+zwyfc = {
+
+}
+for k, v in zwyfc.items():
+    processed = processed.replace(k, v)
 
 
-# 简化版行合并逻辑
-# 简化后的核心处理逻辑
+
+
+
+
+
+
+
+
+# 编译函数
 lines = processed.splitlines(True)
 out = []
 i = 0
@@ -73,27 +86,55 @@ i = 0
 while i < len(lines):
     if i+1 < len(lines):
         match = re.match(
-            r'^(\s*)(async\s+)?(?!\b(?:if|else|elif|for|while|try|except|finally|with|class|True|False)\b)(\w+)\s*:(.*)$',
+            r'^(\s*)(async\s+)?(?!\b(?:else|try|finally|class|except)\b)(\w+)\s*:(.*)$',
             lines[i]
         )
 
         if match:
             indent, prefix, func, tail = match.groups()
             prefix = prefix or ''
-            next_line = lines[i+1].lstrip()
-            if next_line.startswith('('):
-                param = next_line.split('\n', 1)[0]
-                out.append(f"{indent}{prefix}def {func}{param}:{tail}\n")
-                i += 2
+            
+            # 查找参数块
+            param_lines = []
+            j = i + 1
+            found_start = False
+            found_end = False
+            
+            while j < len(lines):
+                line = lines[j]
+                if not found_start and line.strip().startswith('('):
+                    found_start = True
+                    param_lines.append(line)
+                    if ')' in line:
+                        found_end = True
+                        break
+                elif found_start and not found_end:
+                    param_lines.append(line)
+                    if ')' in line:
+                        found_end = True
+                        break
+                elif found_start and found_end:
+                    break
+                else:
+                    break
+                j += 1
+            
+            if found_start and found_end:
+                # 合并参数行
+                full_param = ''.join(param_lines).strip()
+                out.append(f"{indent}{prefix}def {func}{full_param}:\n")
+                i = j + 1
                 continue
             else:
-                out.append(f"{indent}{prefix}def {func}():{tail}\n")
+                out.append(f"{indent}{prefix}def {func}():\n")
                 i += 1
                 continue
     out.append(lines[i])
     i += 1
 
 processed = ''.join(out)
+
+
 
 
 
