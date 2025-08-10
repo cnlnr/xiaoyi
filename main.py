@@ -1,6 +1,8 @@
 import re, random, regex
 
-code = open('实验.xy',  encoding='utf-8').read()
+code = open("C:\\Users\\cnlnr\\工作区\\qq-reading-crawling\\登录.xy",  encoding='utf-8').read()
+
+
 
 
 # 生成占位符
@@ -68,7 +70,7 @@ zwyfc = {
     '无':'None',
     '真':'True',
     '与':'and',
-    '如':'as',
+    '别名':'as',
     '断言':'assert',
     '异步':'async',
     '等待':'await',
@@ -80,7 +82,7 @@ zwyfc = {
     '否则':'else',
     '异常':'except',
     '最终':'finally',
-    '遍历':'for',
+    '为':'for',
     '从':'from',
     '全局':'global',
     '若':'if',
@@ -102,16 +104,13 @@ zwyfc = {
     '类方法':'classmethod',
     '编译':'compile',
     '复数':'complex',
-    '版权':'copyright',
-    '信用':'credits',
     '删除属性':'delattr',
     '字典':'dict',
     '目录':'dir',
     '商余':'divmod',
     '枚举':'enumerate',
-    '求值':'eval',
     '执行':'exec',
-    '退出':'exit',
+    '离开':'exit',
     '过滤器':'filter',
     '浮点数':'float',
     '格式化':'format',
@@ -125,11 +124,11 @@ zwyfc = {
     '标识':'id',
     '输入':'input',
     '整数':'int',
-    '':'isinstance',
-    '':'issubclass',
-    '':'iter',
-    '':'len',
-    '':'license',
+    # '':'isinstance',
+    # '':'issubclass',
+    # '':'iter',
+    '个数':'len',
+    # '':'license',
     '列表':'list',
     '本地变量':'locals',
     '映射':'map',
@@ -142,7 +141,7 @@ zwyfc = {
     '打开':'open',
     '有序对':'ord',
     '幂':'pow',
-    '打印':print,
+    '打印':'print',
     '属性':'property',
     '退出':'quit',
     '范围':'range',
@@ -160,7 +159,7 @@ zwyfc = {
     '元组':'tuple',
     '类型':'type',
     '变量':'vars',
-    '压缩':'zip',
+    '压缩':'zip'
 
 
 }
@@ -230,5 +229,5 @@ sorted_quotes = sorted(quote_map.items(), key=lambda x: len(x[0]), reverse=True)
 for key, original in sorted_quotes:
     processed = processed.replace(key, original)
 
-with open('实验.py', 'w', encoding='utf-8') as file:
+with open("C:\\Users\\cnlnr\\工作区\\qq-reading-crawling\\build\\登录.py", 'w', encoding='utf-8') as file:
     file.write(processed)
