@@ -1,4 +1,7 @@
-def 问候(名字='世界'):
-    print(f'你好 {名字}')
+class Demo:
 
-问候()
+    def greet(cls):
+        print('Hello from', cls.__name__)
+
+# 正确：加括号 → 执行
+Demo.greet()          # 输出: Hello from Demo

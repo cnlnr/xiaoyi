@@ -64,10 +64,112 @@ processed = bracket_pattern.sub(replace_brackets, processed)
 
 # 中文替换
 zwyfc = {
-    "打印": "print"
+    '假':'False',
+    '无':'None',
+    '真':'True',
+    '与':'and',
+    '如':'as',
+    '断言':'assert',
+    '异步':'async',
+    '等待':'await',
+    '跳出':'break',
+    '类':'class',
+    '继续':'continue',
+    '删除':'del',
+    '再若':'elif',
+    '否则':'else',
+    '异常':'except',
+    '最终':'finally',
+    '遍历':'for',
+    '从':'from',
+    '全局':'global',
+    '若':'if',
+    '导入':'import',
+    '在':'in',
+    '是':'is',
+    '非局部':'nonlocal',
+    '非':'not',
+    '或':'or',
+    '引发':'raise',
+    '返回':'return',
+    '尝试':'try',
+    '当':'while',
+    '产出':'yield',
+    '绝对值':'abs',
+    '布尔':'bool',
+    '跳出':'break',
+    '可调用':'callable',
+    '类方法':'classmethod',
+    '编译':'compile',
+    '复数':'complex',
+    '版权':'copyright',
+    '信用':'credits',
+    '删除属性':'delattr',
+    '字典':'dict',
+    '目录':'dir',
+    '商余':'divmod',
+    '枚举':'enumerate',
+    '求值':'eval',
+    '执行':'exec',
+    '退出':'exit',
+    '过滤器':'filter',
+    '浮点数':'float',
+    '格式化':'format',
+    '不可变集合':'frozenset',
+    '获取属性':'getattr',
+    '全局变量':'globals',
+    '是否有属性':'hasattr',
+    '哈希':'hash',
+    '帮助':'help',
+    '十六进制':'hex',
+    '标识':'id',
+    '输入':'input',
+    '整数':'int',
+    '':'isinstance',
+    '':'issubclass',
+    '':'iter',
+    '':'len',
+    '':'license',
+    '列表':'list',
+    '本地变量':'locals',
+    '映射':'map',
+    '最大':'max',
+    '内存视图':'memoryview',
+    '最小':'min',
+    '下一个':'next',
+    '对象':'object',
+    '八进制':'oct',
+    '打开':'open',
+    '有序对':'ord',
+    '幂':'pow',
+    '打印':print,
+    '属性':'property',
+    '退出':'quit',
+    '范围':'range',
+    '表示':'repr',
+    '反转':'reversed',
+    '四舍五入':'round',
+    '集合':'set',
+    '设置属性':'setattr',
+    '切片':'slice',
+    '排序':'sorted',
+    '静态方法':'staticmethod',
+    '字符串':'str',
+    '总和':'sum',
+    '超类':'super',
+    '元组':'tuple',
+    '类型':'type',
+    '变量':'vars',
+    '压缩':'zip',
+
+
 }
 for k, v in zwyfc.items():
     processed = processed.replace(k, v)
+
+
+
+
 
 
 
@@ -92,40 +194,14 @@ while i < len(lines):
         if match:
             indent, prefix, func, tail = match.groups()
             prefix = prefix or ''
-            
-            # 查找参数块
-            param_lines = []
-            j = i + 1
-            found_start = False
-            found_end = False
-            
-            while j < len(lines):
-                line = lines[j]
-                if not found_start and line.strip().startswith('('):
-                    found_start = True
-                    param_lines.append(line)
-                    if ')' in line:
-                        found_end = True
-                        break
-                elif found_start and not found_end:
-                    param_lines.append(line)
-                    if ')' in line:
-                        found_end = True
-                        break
-                elif found_start and found_end:
-                    break
-                else:
-                    break
-                j += 1
-            
-            if found_start and found_end:
-                # 合并参数行
-                full_param = ''.join(param_lines).strip()
-                out.append(f"{indent}{prefix}def {func}{full_param}:\n")
-                i = j + 1
+            next_line = lines[i+1].lstrip()
+            if next_line.startswith('('):
+                param = next_line.split('\n', 1)[0]
+                out.append(f"{indent}{prefix}def {func}{param}:{tail}\n")
+                i += 2
                 continue
             else:
-                out.append(f"{indent}{prefix}def {func}():\n")
+                out.append(f"{indent}{prefix}def {func}():{tail}\n")
                 i += 1
                 continue
     out.append(lines[i])
