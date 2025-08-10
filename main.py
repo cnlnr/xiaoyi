@@ -1,7 +1,6 @@
 import re, random, regex
 
-code = open("C:\\Users\\cnlnr\\工作区\\qq-reading-crawling\\登录.xy",  encoding='utf-8').read()
-
+code = open("C:\\Users\\cnlnr\\工作区\\qq-reading-crawling\\章节获取.xy",  encoding='utf-8').read()
 
 
 
@@ -159,7 +158,9 @@ zwyfc = {
     '元组':'tuple',
     '类型':'type',
     '变量':'vars',
-    '压缩':'zip'
+    '压缩':'zip',
+    '.替换':'.replace',
+
 
 
 }
@@ -229,5 +230,5 @@ sorted_quotes = sorted(quote_map.items(), key=lambda x: len(x[0]), reverse=True)
 for key, original in sorted_quotes:
     processed = processed.replace(key, original)
 
-with open("C:\\Users\\cnlnr\\工作区\\qq-reading-crawling\\build\\登录.py", 'w', encoding='utf-8') as file:
+with open("C:\\Users\\cnlnr\\工作区\\qq-reading-crawling\\build\\章节获取.py", 'w', encoding='utf-8') as file:
     file.write(processed)
