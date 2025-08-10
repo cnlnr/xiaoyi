@@ -114,7 +114,5 @@ sorted_quotes = sorted(quote_map.items(), key=lambda x: len(x[0]), reverse=True)
 for key, original in sorted_quotes:
     processed = processed.replace(key, original)
 
-print("="*80)
-print(processed)
-print("="*80)
-exec(processed)
+with open('实验.py', 'w', encoding='utf-8') as file:
+    file.write(processed)

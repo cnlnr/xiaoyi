@@ -1,13 +1,16 @@
-def no_param():
+no_param:
     print("hello world")
 
-def Positional(name:str):
+Positional:
+    (name:str)
     print(f"hello {name}")
 
-def Keyword(name) -> None:
+Keyword:
+    (name) -> None
     print(f"hello {name}")
 
-def Default(name="world"):
+Default:
+    (name="world")
     print(f"hello {name}")
 
 
