@@ -1,4 +1,4 @@
-import re, random, string, regex
+import re, random, regex
 
 code = open('实验.xy',  encoding='utf-8').read()
 
