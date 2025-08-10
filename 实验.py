@@ -1,11 +1,4 @@
-def calculate_stats(
-        numbers,  # 位置参数
-        **kwargs  # 可变关键字参数
-    ) -> float:
+def 问候(名字='世界'):
+    print(f'你好 {名字}')
 
-    result = 0
-    if operation == "sum":
-        result = sum(numbers, *args)
-    elif operation == "avg":
-        result = sum(numbers, *args) / (len(numbers) + len(args))
-    return round(result, precision)
+问候()
