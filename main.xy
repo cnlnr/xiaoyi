@@ -1,13 +1,13 @@
-import re, random, regex
+导入 re, random, regex
 
-code = open("C:\\Users\\cnlnr\\工作区\\qq-reading-crawling\\章节获取.xy",  encoding='utf-8').read()
+code = 打开("/home/cnlnr/工作区/xiaoyi/main.xy",  encoding='utf-8').read()
 
 
 
 # 生成占位符
-def zwfhq():
+zwfhq:
     length = 1
-    while True:
+    while 真:
         zwf = "<" + ''.join(chr(random.randint(126, 0x10FFFF)) for _ in range(length)) + ">"
         if zwf not in code:
             break
@@ -18,13 +18,15 @@ def zwfhq():
 quote_map = {}
 bracket_map = {}
 
-def replace_quotes(m):
+replace_quotes:
+    (m)
     full = m.group(0)
     key = zwfhq()
     quote_map[key] = full
     return key
 
-def replace_brackets(m):
+replace_brackets:
+    (m)
     full = m.group(0)
     key = zwfhq()
     bracket_map[key] = full
@@ -165,7 +167,7 @@ zwyfc = {
 
 }
 for k, v in zwyfc.items():
-    processed = processed.replace(k, v)
+    processed = processed.替换(k, v)
 
 
 
@@ -221,14 +223,15 @@ processed = ''.join(out)
 
 
 
+
 # 分阶段还原：先还原括号，再还原引号
 sorted_brackets = sorted(bracket_map.items(), key=lambda x: len(x[0]), reverse=True)
 for key, original in sorted_brackets:
-    processed = processed.replace(key, original)
+    processed = processed.替换(key, original)
 
 sorted_quotes = sorted(quote_map.items(), key=lambda x: len(x[0]), reverse=True)
 for key, original in sorted_quotes:
-    processed = processed.replace(key, original)
+    processed = processed.替换(key, original)
 
-with open("C:\\Users\\cnlnr\\工作区\\qq-reading-crawling\\build\\章节获取.py", 'w', encoding='utf-8') as file:
+with 打开("/home/cnlnr/工作区/xiaoyi/build/main.py", 'w', encoding='utf-8') as file:
     file.write(processed)
