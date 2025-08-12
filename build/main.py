@@ -44,15 +44,10 @@ quote_pattern = re.compile(r'''
 # 第一步替换后（引号和注释）
 processed = quote_pattern.sub(replace_quotes, code)
 
-# 第二步：替换大括号中和括号
-bracket_pattern = regex.compile(r'''
-    (?P<brace>\{(?:[^{}]|(?P>brace))*\})     # 递归匹配大括号
-    |
-    (?P<square>\[(?:[^\[\]]|(?P>square))*\])     # 递归匹配中括号
-''', re.X)
 
-# 第二步替换后（大括号中和括号）
-processed = bracket_pattern.sub(replace_brackets, processed)
+
+
+
 
 
 
@@ -166,6 +161,46 @@ zwyfc = {
 }
 for k, v in zwyfc.items():
     processed = processed.replace(k, v)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 第二步：替换大括号中和括号
+bracket_pattern = regex.compile(r'''
+    (?P<brace>\{(?:[^{}]|(?P>brace))*\})     # 递归匹配大括号
+    |
+    (?P<square>\[(?:[^\[\]]|(?P>square))*\])     # 递归匹配中括号
+''', re.X)
+
+# 第二步替换后（大括号中和括号）
+processed = bracket_pattern.sub(replace_brackets, processed)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
