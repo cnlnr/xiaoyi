@@ -30,7 +30,7 @@ def replace_brackets(m):
     bracket_map[key] = full
     return key
 
-# 第一步：替换引号和注释
+# 第一步：replace引号和注释
 quote_pattern = re.compile(r'''
     (?P<dquote>"[^"\\]*(?:\\.[^"\\]*)*")     # 双引号
     |
@@ -41,165 +41,22 @@ quote_pattern = re.compile(r'''
     (?P<walrus>:=)                           # 海象
 ''', re.X)
 
-# 第一步替换后（引号和注释）
+# 第一步replace后（引号和注释）
 processed = quote_pattern.sub(replace_quotes, code)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 中文替换
-zwyfc = {
-    '假':'False',
-    '无':'None',
-    '真':'True',
-    '与':'and',
-    '断言':'assert',
-    '异步':'async',
-    '等待':'await',
-    '跳出':'break',
-    '类':'class',
-    '继续':'continue',
-    '删除':'del',
-    '再若':'elif',
-    '否则':'else',
-    '异常':'except',
-    '最终':'finally',
-    '从':'from',
-    '全局':'global',
-    '导入':'import',
-    '非局部':'nonlocal',
-    '非':'not',
-    '或':'or',
-    '引发':'raise',
-    '返回':'return',
-    '尝试':'try',
-    '当':'while',
-    '产出':'yield',
-    '绝对值':'abs',
-    '布尔':'bool',
-    '跳出':'break',
-    '可调用':'callable',
-    '类方法':'classmethod',
-    '编译':'compile',
-    '复数':'complex',
-    '删除属性':'delattr',
-    '字典':'dict',
-    '目录':'dir',
-    '商余':'divmod',
-    '枚举':'enumerate',
-    '执行':'exec',
-    '离开':'exit',
-    '过滤器':'filter',
-    '浮点数':'float',
-    '格式化':'format',
-    '不可变集合':'frozenset',
-    '获取属性':'getattr',
-    '全局变量':'globals',
-    '是否有属性':'hasattr',
-    '哈希':'hash',
-    '帮助':'help',
-    '十六进制':'hex',
-    '标识':'id',
-    '输入':'input',
-    '整数':'int',
-    # '':'isinstance',
-    # '':'issubclass',
-    # '':'iter',
-    '个数':'len',
-    # '':'license',
-    '列表':'list',
-    '本地变量':'locals',
-    '映射':'map',
-    '最大':'max',
-    '内存视图':'memoryview',
-    '最小':'min',
-    '下一个':'next',
-    '对象':'object',
-    '八进制':'oct',
-    '打开':'open',
-    '有序对':'ord',
-    '幂':'pow',
-    '打印':'print',
-    '属性':'property',
-    '退出':'quit',
-    '范围':'range',
-    '表示':'repr',
-    '反转':'reversed',
-    '四舍五入':'round',
-    '集合':'set',
-    '设置属性':'setattr',
-    '切片':'slice',
-    '排序':'sorted',
-    '静态方法':'staticmethod',
-    '字符串':'str',
-    '总和':'sum',
-    '超类':'super',
-    '元组':'tuple',
-    '类型':'type',
-    '变量':'vars',
-    '压缩':'zip',
-    '.替换':'.replace',
-
-
-
-}
-for k, v in zwyfc.items():
-    processed = processed.replace(k, v)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 第二步：替换大括号中和括号
+# 第二步：replace大括号中和括号
 bracket_pattern = regex.compile(r'''
     (?P<brace>\{(?:[^{}]|(?P>brace))*\})     # 递归匹配大括号
     |
     (?P<square>\[(?:[^\[\]]|(?P>square))*\])     # 递归匹配中括号
 ''', re.X)
 
-# 第二步替换后（大括号中和括号）
+# 第二步replace后（大括号中和括号）
 processed = bracket_pattern.sub(replace_brackets, processed)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# 编译中文
+processed = processed.replace("导入", "import").replace("从", "from").replace("返回", "return").replace("跳出", "break").replace("@staticmethod", "静态方法").replace("@classmethod", "类方法")
 
 
 
