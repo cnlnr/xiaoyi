@@ -8,7 +8,7 @@ code = open("/home/cnlnr/工作区/xiaoyi/main.xy",  encoding='utf-8').read()
 zwfhq:
     length = 1
     while True:
-        zwf = "<" + ''.join(chr(random.randint(126, 0x10FFFF)) for _ in range(length)) + ">"
+        zwf = "<" + ''.join(chr(random.randint(0x9FFF, 0x10FFFF)) for _ in range(length)) + ">"
         if zwf not in code:
             跳出
         length += 1
