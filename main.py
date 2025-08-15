@@ -1,2 +1,1 @@
-def text(参数):
-    print()
+print("你好世界")
