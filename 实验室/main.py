@@ -47,7 +47,7 @@ processed = quote_pattern.sub(replace_quotes, code)
 
 # 第二步：replace大括号中和括号
 bracket_pattern = regex.compile(r'''
-    (?P<brace>\{(?:[^{}]|(?P>brace))*\})     # 递归匹配大括号
+    (?P<brace>\{(?:[^{}]|(?P>brace))*\})         # 递归匹配大括号
     |
     (?P<square>\[(?:[^\[\]]|(?P>square))*\])     # 递归匹配中括号
 ''', re.X)
@@ -56,7 +56,8 @@ bracket_pattern = regex.compile(r'''
 processed = bracket_pattern.sub(replace_brackets, processed)
 
 # 编译中文
-processed = processed.replace("导入", "import").replace("从", "from").replace("返回", "return").replace("跳出", "break").replace("@staticmethod", "静态方法").replace("@classmethod", "类方法")
+processed = processed.replace("导入", "import").replace("从", "from").replace("返回", "return").replace("跳出", "break").replace("@静态方法", "@staticmethod").replace("@类方法", "@classmethod")
+
 
 
 
