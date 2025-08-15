@@ -55,6 +55,9 @@ bracket_pattern = regex.compile(r'''
 # 第二步replace后（大括号中和括号）
 processed = bracket_pattern.sub(replace_brackets, processed)
 
+# 去除反斜杠换行
+processed = processed.replace("\\\n", "")
+
 # 编译中文
 processed = processed.replace("导入", "import").replace("从", "from").replace("返回", "return").replace("跳出", "break").replace("@静态方法", "@staticmethod").replace("@类方法", "@classmethod")
 
@@ -105,7 +108,6 @@ for line in lines:
         out.append(line)
 
 processed = ''.join(out)
-
 
 
 
