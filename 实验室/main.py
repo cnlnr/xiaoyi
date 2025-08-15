@@ -8,7 +8,7 @@ code = open("/home/cnlnr/工作区/xiaoyi/main.xy",  encoding='utf-8').read()
 def zwfhq():
     length = 1
     while True:
-        zwf = "<" + ''.join(chr(random.randint(0x9FFF, 0x10FFFF)) for _ in range(length)) + ">"
+        zwf = "<" + ''.join(chr(random.randint(126, 0x10FFFF)) for _ in range(length)) + ">"
         if zwf not in code:
             break
         length += 1
@@ -56,7 +56,7 @@ bracket_pattern = regex.compile(r'''
 processed = bracket_pattern.sub(replace_brackets, processed)
 
 # 编译中文
-processed = processed.replace("导入", "import").replace("从", "from").replace("返回", "return").replace("跳出", "break").replace("@staticmethod", "静态方法").replace("@classmethod", "类方法")
+processed = processed.replace("导入", "import").replace("从", "from").replace("class", "").replace("返回", "return").replace("跳出", "break").replace("@staticmethod", "静态方法").replace("@classmethod", "类方法")
 
 
 

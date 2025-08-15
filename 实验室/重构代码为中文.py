@@ -7,14 +7,12 @@ class RenameVisitor(cst.CSTTransformer):
         return updated_node
 
 code = """
-def 打印(x):
-    return x
-
-打印(123)
+打印(123)  # 调用打印函数
 """
 
-# 解析 + 替换
 module = cst.parse_module(code)
 new_module = module.visit(RenameVisitor())
 
 print(new_module.code)
+
+
