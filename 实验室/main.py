@@ -56,7 +56,7 @@ bracket_pattern = regex.compile(r'''
 processed = bracket_pattern.sub(replace_brackets, processed)
 
 # 编译中文
-processed = processed.replace("导入", "import").replace("从", "from").replace("class", "").replace("返回", "return").replace("跳出", "break").replace("@staticmethod", "静态方法").replace("@classmethod", "类方法")
+processed = processed.replace("导入", "import").replace("从", "from").replace("类", "class ").replace("返回", "return").replace("跳出", "break").replace("@staticmethod", "静态方法").replace("@classmethod", "类方法")
 
 
 
@@ -65,38 +65,44 @@ processed = processed.replace("导入", "import").replace("从", "from").replace
 
 
 
-
-# 编译函数
+# class
 lines = processed.splitlines(True)
 out = []
-i = 0
 
-while i < len(lines):
-    if i+1 < len(lines):
-        match = re.match(
-            r'^(\s*)(async\s+)?(?!\b(?:else|try|finally|class|except)\b)(\w+)\s*:(.*)$',
-            lines[i]
-        )
-
-        if match:
-            indent, prefix, func, tail = match.groups()
-            prefix = prefix or ''
-            next_line = lines[i+1].lstrip()
-            if next_line.startswith('('):
-                param = next_line.split('\n', 1)[0]
-                out.append(f"{indent}{prefix}def {func}{param}:{tail}\n")
-                i += 2
-                continue
-            else:
-                out.append(f"{indent}{prefix}def {func}():{tail}\n")
-                i += 1
-                continue
-    out.append(lines[i])
-    i += 1
+for line in lines:
+    # 排除 if, else, try, except, finally, while, for, with 等关键字开头
+    match = re.match(r'^(\s*)(?!\b(?:if|else|elif|try|except|finally|while|for|with|def|class)\b)(\w+)\s*:(.*)$', line)
+    if match:
+        indent, name, tail = match.groups()
+        out.append(f"{indent}class {name}:{tail}\n")
+    else:
+        out.append(line)
 
 processed = ''.join(out)
 
 
+
+
+
+
+# def
+lines = processed.splitlines(True)
+out = []
+
+for line in lines:
+    # 匹配任意缩进的函数定义，处理可选 async 前缀
+    match = re.match(
+        r'^(\s*)(async\s+)?(?!\b(?:if|else|elif|try|except|finally|while|for|with|class)\b)(\w+)\s*(\(.*\))\s*:(.*)$',
+        line
+    )
+    if match:
+        indent, prefix, name, params, tail = match.groups()
+        prefix = prefix or ''
+        out.append(f"{indent}{prefix}def {name}{params}:{tail}\n")
+    else:
+        out.append(line)
+
+processed = ''.join(out)
 
 
 
@@ -118,5 +124,5 @@ sorted_quotes = sorted(quote_map.items(), key=lambda x: len(x[0]), reverse=True)
 for key, original in sorted_quotes:
     processed = processed.replace(key, original)
 
-with open("/home/cnlnr/工作区/xiaoyi/build/main.py", 'w', encoding='utf-8') as file:
+with open("/home/cnlnr/工作区/xiaoyi/main.py", 'w', encoding='utf-8') as file:
     file.write(processed)
