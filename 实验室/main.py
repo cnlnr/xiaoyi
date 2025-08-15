@@ -56,7 +56,7 @@ bracket_pattern = regex.compile(r'''
 processed = bracket_pattern.sub(replace_brackets, processed)
 
 # 编译中文
-processed = processed.replace("导入", "import").replace("从", "from").replace("类", "class ").replace("返回", "return").replace("跳出", "break").replace("@staticmethod", "静态方法").replace("@classmethod", "类方法")
+processed = processed.replace("导入", "import").replace("从", "from").replace("返回", "return").replace("跳出", "break").replace("@staticmethod", "静态方法").replace("@classmethod", "类方法")
 
 
 
@@ -65,7 +65,7 @@ processed = processed.replace("导入", "import").replace("从", "from").replace
 
 
 
-# class
+# 编译 class
 lines = processed.splitlines(True)
 out = []
 
@@ -85,16 +85,17 @@ processed = ''.join(out)
 
 
 
-# def
+# 编译 def
 lines = processed.splitlines(True)
 out = []
 
 for line in lines:
     # 匹配任意缩进的函数定义，处理可选 async 前缀
     match = re.match(
-        r'^(\s*)(async\s+)?(?!\b(?:if|else|elif|try|except|finally|while|for|with|class)\b)(\w+)\s*(\(.*\))\s*:(.*)$',
-        line
-    )
+    r'^(\s*)(async\s+)?(\w+)\s*(\(.*\))\s*:(.*)$',
+    line
+)
+
     if match:
         indent, prefix, name, params, tail = match.groups()
         prefix = prefix or ''
