@@ -22,4 +22,4 @@ class_name:    # 定义类
 ```
 
 
-提示!可以改成cli从而使得make,ninja,SwayFX 来编译你的代码
+提示!使用 make,ninja,SwayFX 来编译你的代码
