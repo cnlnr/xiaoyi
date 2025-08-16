@@ -16,9 +16,9 @@
 ## 文档
 
 ```python
-def_name:    # 定义类
+def_name():    # 定义函数
 
-name(参数):  # 定义函数
+class_name:    # 定义类
 ```
 
 
