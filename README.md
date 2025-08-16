@@ -1,6 +1,10 @@
-# 小易
+# 小易中文编程语言
 
-编写简易的编程语言，与 Python 紧密结合,支持中文编程。
+![PyPI - Version](https://img.shields.io/pypi/v/xiaoyi)
+[![star](https://gitee.com/LZY4/xiaoyi/badge/star.svg?theme=white)](https://gitee.com/LZY4/xiaoyi/stargazers)
+![GitHub Repo stars](https://img.shields.io/github/stars/cnlnr/xiaoyi)
+
+小易编程语言（xiaoyi）是一个基于 Python 的编程语言,具有更简洁的语法，并且原生兼容 Python。
 
 ## 安装
 
@@ -31,7 +35,6 @@ cnlnr@xiaoxin ~ [1]>
 
 ### 定义函数
 
-
 ```python
 问候():
     打印('你好')
@@ -60,13 +63,18 @@ cnlnr@xiaoxin ~ [1]>
 
 提示!可以使用 [Meson](https://github.com/mesonbuild/meson) ,[make](https://www.make.com/),[ninja](https://github.com/ninja-build/ninja) 来编译你的项目
 
-
 ## Bug
 
 - 语法糖内的保留关键字无法是中文
 
 - exec 的代码不会自动转换成python代码
 
+- 无法导入使用xy库
+
 ## 社区
 
-点击链接加入腾讯频道【AI &小易编程语言社区 】：https://pd.qq.com/s/dvvy24tpn?b=9
+点击链接加入腾讯频道【AI &小易编程语言社区 】：<https://pd.qq.com/s/dvvy24tpn?b=9>
+
+## 赞助
+
+[点我捐赠](jkm.jpeg)
