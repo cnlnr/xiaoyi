@@ -2,6 +2,11 @@
 
 编写简易的编程语言，与 Python 紧密结合,支持中文编程。
 
+## 安装
+
+```shell
+pip install xiaoyi
+```
 
 ## 发展
 
