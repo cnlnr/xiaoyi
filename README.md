@@ -66,3 +66,7 @@ cnlnr@xiaoxin ~ [1]>
 - 语法糖内的保留关键字无法是中文
 
 - exec 的代码不会自动转换成python代码
+
+## 社区
+
+点击链接加入腾讯频道【AI &小易编程语言社区 】：https://pd.qq.com/s/dvvy24tpn?b=9
