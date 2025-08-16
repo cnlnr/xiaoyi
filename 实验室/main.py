@@ -1,7 +1,33 @@
 import re, random, regex
 import libcst as cst
+import sys
 
-code = open("/home/cnlnr/工作区/xiaoyi/main.xy",  encoding='utf-8').read()
+
+
+args = sys.argv[1:]  # 跳过脚本名
+if len(args) == 0:
+    print("""用法：
+    xiaoyi file.xy           直接运行
+    xiaoyi file.xy file.py   编译
+源码：
+    GitHub: https://github.com/cnlnr/xiaoyi
+    Gitee: https://gitee.com/LZY4/xiaoyi""")
+    sys.exit(1)
+elif len(args) == 1:
+    code = open(args[0], encoding='utf-8').read()
+    now_file = None
+elif len(args) == 2:
+    code = open(args[0], encoding='utf-8').read()
+    now_file = args[1]
+else:
+    print("最多只能接受两个参数!")
+    sys.exit(1)
+
+
+
+
+
+
 
 
 
@@ -172,8 +198,8 @@ code = module.visit(RenameVisitor()).code
 
 
 
-
-
-
-with open("/home/cnlnr/工作区/xiaoyi/main.py", 'w', encoding='utf-8') as file:
-    file.write(code)
+if now_file:  # 有文件名 → 写文件
+    with open(now_file, "w", encoding="utf-8") as f:
+        f.write(code)
+else:         # 没有文件名 → 直接执行
+    exec(code)
