@@ -23,4 +23,4 @@ pip install xiaoyi
 请查看 [docs](docs) 目录
 
 
-提示!使用 make,ninja,SwayFX 来编译你的代码
+提示!可以使用 make,ninja,SwayFX 来编译你的代码
