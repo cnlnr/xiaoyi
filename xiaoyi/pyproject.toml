@@ -1,0 +1,20 @@
+[project]
+name = "xiaoyi"
+version = "0.1.0"
+description = "Xiaoyi 小易编程语言"
+readme = "../README.md"
+authors = [{name="liuzhongyi", email="lqvsyi@sina.com"}]
+license = {text="Apache-2.0"}
+
+dependencies = [
+    "libcst",
+    "regex"
+]
+
+[project.urls]
+Homepage = "https://gitee.com/LZY4/xiaoyi"
+Source = "https://github.com/cnlnr/xiaoyi"
+Tracker = "https://gitee.com/LZY4/xiaoyi/issues"
+
+[project.scripts]
+xiaoyi = "xiaoyi.xiaoyi:cli"

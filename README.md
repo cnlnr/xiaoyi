@@ -15,11 +15,7 @@
 
 ## 文档
 
-```python
-def_name():    # 定义函数
-
-class_name:    # 定义类
-```
+请查看 [docs](docs) 目录
 
 
 提示!使用 make,ninja,SwayFX 来编译你的代码
