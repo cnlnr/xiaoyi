@@ -95,28 +95,24 @@ def cli():
     processed = ''.join(out)
 
     # 编译 def
+    def compile_functions(src: str) -> str:
+        pattern = regex.compile(
+            r"""(?smx)^([ \t]*)                     # 行首空白
+            (async\s+)?                             # 1. 可选 async
+            (\w+)                                   # 2. 真正的函数名
+            (                                       # 3. 括号+类型+冒号
+                \s*(?&b)\s*
+                (?:\s*->[\s\S]*?)?
+                \s*:
+            )
+            (?(DEFINE)(?<b>\((?:[^()]++|(?&b))*\)))
+            """,
+        )
+        return pattern.sub(r'\1\2def \3\4', src)
+    
+    processed = compile_functions(processed)
+    print(processed)
 
-
-    # 合并所有行方便跨行匹配
-    text = ''.join(processed.splitlines(True))
-
-    # 匹配任意缩进 + 可选 async + 函数名 + 跨行参数列表 + 可选类型注解 + : 及后续内容
-    pattern = re.compile(
-        r'^(\s*)(async\s+)?(\w+)\s*(\(.*?\))\s*(?:->\s*([^\s:]+)\s*)?:'  # 类型注解捕获在 group(5)
-        r'(.*)$',
-        re.MULTILINE | re.DOTALL
-    )
-
-    def repl(m):
-        indent, prefix, name, params, rtype, tail = m.groups()
-        prefix = prefix or ''
-        new_line = f"{indent}{prefix}def {name}{params}"
-        if rtype:
-            new_line += f" -> {rtype}"
-        new_line += f":{tail}\n"
-        return new_line
-
-    processed = pattern.sub(repl, text)
 
 
     # 分阶段还原：先还原括号，再还原引号
