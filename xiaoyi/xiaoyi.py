@@ -78,7 +78,7 @@ def cli():
     processed = processed.replace("\\\n", "")
 
     # 编译保留关键字
-    processed = processed.replace("导入", "import").replace("从", "from").replace("返回", "return").replace("跳出", "break").replace("@静态方法", "@staticmethod").replace("@类方法", "@classmethod")
+    processed = processed.replace("导入", "import").replace("从", "from").replace("返回", "return").replace("跳出", "break").replace("继续", "continue").replace("@静态方法", "@staticmethod").replace("@类方法", "@classmethod")
 
     # 编译 class
     lines = processed.splitlines(True)
@@ -129,7 +129,7 @@ def cli():
     func_map = {
         "打印": "print",
         "输入": "input",
-        # 可以继续添加更多函数名映射
+        "范围": "range",
     }
 
     # 定义属性名映射

@@ -18,7 +18,7 @@ pip install xiaoyi
 
 ## 快速入门
 
-更多文档请查看 [docs](docs) 目录
+更多文档请查看 [docs](https://gitee.com/LZY4/xiaoyi/blob/main/docs) 目录
 
 ### 如何运行或编译代码
 
