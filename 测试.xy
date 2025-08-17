@@ -1,0 +1,6 @@
+hello(
+b=input(">>>")
+):
+    print(b)
+
+hello()

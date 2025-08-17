@@ -96,25 +96,25 @@ def cli():
     processed = ''.join(out)
 
     # 编译 def
-    lines = processed.splitlines(True)
-    out = []
 
-    for line in lines:
-        # 匹配任意缩进的函数定义，处理可选 async 前缀
-        match = re.match(
-        r'^(\s*)(async\s+)?(\w+)\s*(\(.*\))\s*:(.*)$',
-        line
+
+    pattern = regex.compile(
+        r'(?ms)^(?P<indent>\s*)(?P<prefix>async\s+)?'
+        r'(?P<name>[\p{L}_][\p{L}\p{N}_]*)\s*'       # 允许中文等所有字母类作为标识符
+        r'(?P<sig>\((?:[^()]++|(?0))*\))\s*'         # 递归配平括号
+        r':(?P<tail>[^\n]*)$'
     )
 
-        if match:
-            indent, prefix, name, params, tail = match.groups()
-            prefix = prefix or ''
-            out.append(f"{indent}{prefix}def {name}{params}:{tail}\n")
-        else:
-            out.append(line)
+    def _repl(m):
+        return f"{m.group('indent')}{m.group('prefix') or ''}def {m.group('name')}{m.group('sig')}:{m.group('tail')}"
 
-    processed = ''.join(out)
+    processed = pattern.sub(_repl, processed)
 
+
+
+
+
+    print(processed)
     # 分阶段还原：先还原括号，再还原引号
     sorted_brackets = sorted(bracket_map.items(), key=lambda x: len(x[0]), reverse=True)
     for key, original in sorted_brackets:
