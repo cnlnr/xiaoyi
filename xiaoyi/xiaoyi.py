@@ -96,17 +96,30 @@ def cli():
     processed = ''.join(out)
 
     # 编译 def
-
-
-    pattern = regex.compile(
-        r'(?ms)^(?P<indent>\s*)(?P<prefix>async\s+)?'
-        r'(?P<name>[\p{L}_][\p{L}\p{N}_]*)\s*'       # 允许中文等所有字母类作为标识符
-        r'(?P<sig>\((?:[^()]++|(?0))*\))\s*'         # 递归配平括号
-        r':(?P<tail>[^\n]*)$'
+    # 改进版正则，支持类型注解
+    pattern = re.compile(
+        r'(?ms)^(?P<indent>\s*)'            # 缩进
+        r'(?P<prefix>async\s+)?'            # 可选 async
+        r'(?P<name>\w+)\s*'                 # 函数名
+        r'(?P<sig>\((?:.|\n)*?\))\s*'       # 参数列表，多行
+        r'(?:->\s*(?P<rtype>[^\s:]+)\s*)?'  # 可选返回类型注解
+        r':(?P<tail>[^\n]*)$'               # 行尾冒号和注释
     )
 
     def _repl(m):
-        return f"{m.group('indent')}{m.group('prefix') or ''}def {m.group('name')}{m.group('sig')}:{m.group('tail')}"
+        indent  = m.group('indent')
+        prefix  = m.group('prefix') or ''
+        name    = m.group('name')
+        sig     = m.group('sig')
+        rtype   = m.group('rtype')
+        tail    = m.group('tail')
+
+        # 构造新的函数定义行
+        new_line = f"{indent}{prefix}def {name}{sig}"
+        if rtype:
+            new_line += f" -> {rtype}"
+        new_line += f":{tail}"
+        return new_line
 
     processed = pattern.sub(_repl, processed)
 
