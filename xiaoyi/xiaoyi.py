@@ -5,12 +5,13 @@ import sys
 def cli():
     args = sys.argv[1:]  # 跳过脚本名
     if len(args) == 0:
-        print("""用法：
+        print("""小易中文编程语言 v0.1.1
+用法：
     xiaoyi file.xy           直接运行
-    xiaoyi file.xy file.py   编译
+    xiaoyi file.xy file.py   编译成 Python 源码
 源码：
     GitHub: https://github.com/cnlnr/xiaoyi
-    Gitee: https://gitee.com/LZY4/xiaoyi""")
+    Gitee:  https://gitee.com/LZY4/xiaoyi""")
         sys.exit(1)
     elif len(args) == 1:
         code = open(args[0], encoding='utf-8').read()

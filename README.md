@@ -24,12 +24,13 @@ pip install xiaoyi
 
 ```shell
 cnlnr@xiaoxin ~> xiaoyi
+小易中文编程语言 v0.1.1
 用法：
     xiaoyi file.xy           直接运行
-    xiaoyi file.xy file.py   编译
+    xiaoyi file.xy file.py   编译成 Python 源码
 源码：
     GitHub: https://github.com/cnlnr/xiaoyi
-    Gitee: https://gitee.com/LZY4/xiaoyi
+    Gitee:  https://gitee.com/LZY4/xiaoyi
 cnlnr@xiaoxin ~ [1]> 
 ```
 
