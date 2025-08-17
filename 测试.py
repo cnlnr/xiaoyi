@@ -1,4 +1,8 @@
-def 问候(
-    a= input(">>>")
-):
-    print(a)
+def hello(
+    a=(1,(2,3)),
+    b=input(">>>")) -> None:
+    print(b)
+hello(
+
+
+)

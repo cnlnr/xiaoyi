@@ -1,4 +1,3 @@
-# xiaoyi/xiaoyi.py
 import re, random, regex
 import libcst as cst
 import sys
@@ -96,37 +95,30 @@ def cli():
     processed = ''.join(out)
 
     # 编译 def
+
+
+    # 合并所有行方便跨行匹配
+    text = ''.join(processed.splitlines(True))
+
+    # 匹配任意缩进 + 可选 async + 函数名 + 跨行参数列表 + 可选类型注解 + : 及后续内容
     pattern = re.compile(
-        r'(?ms)^'                        # 多行模式
-        r'(?P<indent>\s*)'               # 缩进
-        r'(?P<prefix>async\s+)?'         # 可选 async
-        r'(?P<name>\w+)\s*'              # 函数名
-        r'(?P<sig>\(.*?\))\s*'           # 参数列表（单层括号即可）
-        r'(?:->\s*(?P<rtype>[^\s:]+)\s*)?'  # 可选返回类型
-        r':(?P<tail>[^\n]*)$'            # 行尾冒号和尾注释
+        r'^(\s*)(async\s+)?(\w+)\s*(\(.*?\))\s*(?:->\s*([^\s:]+)\s*)?:'  # 类型注解捕获在 group(5)
+        r'(.*)$',
+        re.MULTILINE | re.DOTALL
     )
 
-    def _repl(m):
-        indent = m.group('indent')
-        prefix = m.group('prefix') or ''
-        name   = m.group('name')
-        sig    = m.group('sig')
-        rtype  = m.group('rtype')
-        tail   = m.group('tail')
-
-        new_line = f"{indent}{prefix}def {name}{sig}"
+    def repl(m):
+        indent, prefix, name, params, rtype, tail = m.groups()
+        prefix = prefix or ''
+        new_line = f"{indent}{prefix}def {name}{params}"
         if rtype:
             new_line += f" -> {rtype}"
-        new_line += f":{tail}"
+        new_line += f":{tail}\n"
         return new_line
 
-    processed = pattern.sub(_repl, processed)
+    processed = pattern.sub(repl, text)
 
 
-
-
-
-    print(processed)
     # 分阶段还原：先还原括号，再还原引号
     sorted_brackets = sorted(bracket_map.items(), key=lambda x: len(x[0]), reverse=True)
     for key, original in sorted_brackets:
