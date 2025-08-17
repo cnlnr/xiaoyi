@@ -96,25 +96,24 @@ def cli():
     processed = ''.join(out)
 
     # 编译 def
-    # 改进版正则，支持类型注解
     pattern = re.compile(
-        r'(?ms)^(?P<indent>\s*)'            # 缩进
-        r'(?P<prefix>async\s+)?'            # 可选 async
-        r'(?P<name>\w+)\s*'                 # 函数名
-        r'(?P<sig>\((?:.|\n)*?\))\s*'       # 参数列表，多行
-        r'(?:->\s*(?P<rtype>[^\s:]+)\s*)?'  # 可选返回类型注解
-        r':(?P<tail>[^\n]*)$'               # 行尾冒号和注释
+        r'(?ms)^'                        # 多行模式
+        r'(?P<indent>\s*)'               # 缩进
+        r'(?P<prefix>async\s+)?'         # 可选 async
+        r'(?P<name>\w+)\s*'              # 函数名
+        r'(?P<sig>\(.*?\))\s*'           # 参数列表（单层括号即可）
+        r'(?:->\s*(?P<rtype>[^\s:]+)\s*)?'  # 可选返回类型
+        r':(?P<tail>[^\n]*)$'            # 行尾冒号和尾注释
     )
 
     def _repl(m):
-        indent  = m.group('indent')
-        prefix  = m.group('prefix') or ''
-        name    = m.group('name')
-        sig     = m.group('sig')
-        rtype   = m.group('rtype')
-        tail    = m.group('tail')
+        indent = m.group('indent')
+        prefix = m.group('prefix') or ''
+        name   = m.group('name')
+        sig    = m.group('sig')
+        rtype  = m.group('rtype')
+        tail   = m.group('tail')
 
-        # 构造新的函数定义行
         new_line = f"{indent}{prefix}def {name}{sig}"
         if rtype:
             new_line += f" -> {rtype}"
