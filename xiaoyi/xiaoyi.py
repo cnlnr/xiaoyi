@@ -111,7 +111,7 @@ def cli():
         return pattern.sub(r'\1\2def \3\4', src)
     
     processed = compile_functions(processed)
-    print(processed)
+
 
 
 
