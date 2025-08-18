@@ -159,7 +159,8 @@ def cli():
         with open(now_file, "w", encoding="utf-8") as f:
             f.write(code)
     else:         # 没有文件名 → 直接执行
-        exec(code)
+        import subprocess
+        exit(subprocess.run([sys.executable, "-c", code],stdout=sys.stdout).returncode)
 
 # 支持直接运行脚本
 if __name__ == "__main__":
