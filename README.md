@@ -4,7 +4,7 @@
 [![star](https://gitee.com/LZY4/xiaoyi/badge/star.svg?theme=white)](https://gitee.com/LZY4/xiaoyi/stargazers)
 ![GitHub Repo stars](https://img.shields.io/github/stars/cnlnr/xiaoyi)
 
-小易编程语言（xiaoyi）是一个基于 Python 的编程语言,具有更简洁的语法，并且原生兼容 Python。
+小易编程语言（xiaoyi）是简化版的 Python 中文编程语言,可编译成 Python 源码。
 
 ## 安装
 
