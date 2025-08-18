@@ -24,7 +24,7 @@ pip install xiaoyi
 
 ```shell
 cnlnr@xiaoxin ~> xiaoyi
-小易中文编程语言 v0.1.1
+小易中文编程语言 v0.1.2
 用法：
     xiaoyi file.xy           直接运行
     xiaoyi file.xy file.py   编译成 Python 源码

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "xiaoyi"
-version = "0.1.1"
+version = "0.1.2"
 description = "Xiaoyi 小易编程语言"
 readme = "README.md"
 authors = [{name="liuzhongyi", email="lqvsyi@sina.com"}]
