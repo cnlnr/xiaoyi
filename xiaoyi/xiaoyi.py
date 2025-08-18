@@ -2,6 +2,7 @@ import re, random, regex
 import libcst as cst
 import sys
 
+
 def cli():
     args = sys.argv[1:]  # 跳过脚本名
     if len(args) == 0:
@@ -63,7 +64,6 @@ def cli():
     # 第一步replace后（引号和注释）
     processed = quote_pattern.sub(replace_quotes, code)
 
-
     # 第二步：replace大括号中和括号
     bracket_pattern = regex.compile(r'''
         (?P<brace>\{(?:[^{}]|(?P>brace))*\})         # 递归匹配大括号
@@ -78,12 +78,17 @@ def cli():
     processed = processed.replace("\\\n", "")
 
     # 编译保留关键字
-    processed = processed.replace("导入", "import").replace("从", "from").replace("返回", "return").replace("跳出", "break").replace("继续", "continue").replace("@静态方法", "@staticmethod").replace("@类方法", "@classmethod")
+    processed = processed.replace("导入", "import") \
+                         .replace("从", "from") \
+                         .replace("返回", "return") \
+                         .replace("跳出", "break") \
+                         .replace("继续", "continue") \
+                         .replace("@静态方法", "@staticmethod") \
+                         .replace("@类方法", "@classmethod")
 
     # 编译 class
     lines = processed.splitlines(True)
     out = []
-
     for line in lines:
         # 排除 if, else, try, except, finally, while, for, with 等关键字开头
         match = re.match(r'^(\s*)(?!\b(?:if|else|elif|try|except|finally|while|for|with|def|class)\b)(\w+)\s*:(.*)$', line)
@@ -92,7 +97,6 @@ def cli():
             out.append(f"{indent}class {name}:{tail}\n")
         else:
             out.append(line)
-
     processed = ''.join(out)
 
     # 编译 def
@@ -110,11 +114,8 @@ def cli():
             """,
         )
         return pattern.sub(r'\1\2def \3\4', src)
-    
+
     processed = compile_functions(processed)
-
-
-
 
     # 分阶段还原：先还原括号，再还原引号
     sorted_brackets = sorted(bracket_map.items(), key=lambda x: len(x[0]), reverse=True)
@@ -160,7 +161,8 @@ def cli():
             f.write(code)
     else:         # 没有文件名 → 直接执行
         import subprocess
-        exit(subprocess.run([sys.executable, "-c", code],stdout=sys.stdout).returncode)
+        exit(subprocess.run([sys.executable, "-c", code], stdout=sys.stdout).returncode)
+
 
 # 支持直接运行脚本
 if __name__ == "__main__":
