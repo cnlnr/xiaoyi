@@ -1,5 +1,3 @@
-import re, random, regex
-import libcst as cst
 import sys
 
 
@@ -15,14 +13,17 @@ def cli():
     Gitee:  https://gitee.com/LZY4/xiaoyi""")
         sys.exit(1)
     elif len(args) == 1:
-        code = open(args[0], encoding='utf-8').read()
+        code = open(args[0], encoding="utf-8").read()
         now_file = None
     elif len(args) == 2:
-        code = open(args[0], encoding='utf-8').read()
+        code = open(args[0], encoding="utf-8").read()
         now_file = args[1]
     else:
         print("最多只能接受两个参数!")
         sys.exit(1)
+
+    import re, random, regex
+    import libcst as cst
 
     # 生成占位符
     def zwfhq():
