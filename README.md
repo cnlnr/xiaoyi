@@ -12,10 +12,6 @@
 pip install xiaoyi
 ```
 
-## 发展
-
-由于一些原因使得项目的进展异常的困难, ~~我可能不会积极改进这些费解的bug,~~ 如果你愿意接受挑战,欢迎Fork
-
 ## 快速入门
 
 更多文档请查看 [docs](https://gitee.com/LZY4/xiaoyi/blob/main/docs) 目录
@@ -52,15 +48,9 @@ cnlnr@xiaoxin ~ [1]>
 打招呼.问候()
 ```
 
+语法对照表请参阅 [docs/中英语法对照.md](https://gitee.com/LZY4/xiaoyi/blob/main/docs/%E4%B8%AD%E8%8B%B1%E8%AF%AD%E6%B3%95%E5%AF%B9%E7%85%A7.md)
+
 提示!可以使用 [Meson](https://github.com/mesonbuild/meson) ,[make](https://www.make.com/),[ninja](https://github.com/ninja-build/ninja) 来编译你的项目
-
-## Bug
-
-- 语法糖内的保留关键字无法是中文
-
-- exec 的代码不会自动转换成Python代码
-
-- 无法导入使用xy库，推荐使用编译
 
 ## 社区
 
