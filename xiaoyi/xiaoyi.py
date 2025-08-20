@@ -84,6 +84,8 @@ def cli():
                          .replace("返回", "return") \
                          .replace("跳出", "break") \
                          .replace("继续", "continue") \
+                         .replace("全局", "global") \
+                         .replace("非局部", "nonlocal") \
                          .replace("@静态方法", "@staticmethod") \
                          .replace("@类方法", "@classmethod")
 
@@ -133,6 +135,7 @@ def cli():
         "输入": "input",
         "范围": "range",
         "打开": "open",
+        "退出": "exit",
     }
 
     # 定义属性名映射

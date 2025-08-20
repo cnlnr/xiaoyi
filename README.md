@@ -34,7 +34,9 @@ cnlnr@xiaoxin ~ [1]>
 
 ```python
 问候():
-    打印('你好')
+    返回 f"你好，{输入("_" * 20 + "\r你的名字是:")}"
+
+打印(问候())
 ```
 
 ### 定义类
@@ -51,6 +53,8 @@ cnlnr@xiaoxin ~ [1]>
 语法对照表请参阅 [docs/中英语法对照.md](https://gitee.com/LZY4/xiaoyi/blob/main/docs/%E4%B8%AD%E8%8B%B1%E8%AF%AD%E6%B3%95%E5%AF%B9%E7%85%A7.md)
 
 提示!可以使用 [Meson](https://github.com/mesonbuild/meson) ,[make](https://www.make.com/),[ninja](https://github.com/ninja-build/ninja) 来编译你的项目
+
+使用双拼可获得更快的打字速度
 
 ## 社区
 
