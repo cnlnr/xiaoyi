@@ -24,7 +24,6 @@ def cli():
         sys.exit(1)
 
     import re, random, regex
-    import libcst as cst
 
     # 生成占位符
     def zwfhq():
@@ -144,29 +143,6 @@ def cli():
         "替换": "replace",
         # 可以继续添加更多属性名映射
     }
-
-    class RenameVisitor(cst.CSTTransformer):
-        # 替换函数名
-        def leave_Name(self, original_node, updated_node):
-            if original_node.value in func_map:
-                return updated_node.with_changes(value=func_map[original_node.value])
-            return updated_node
-
-        # 替换属性名
-        def leave_Attribute(self, original_node, updated_node):
-            if original_node.attr.value in attr_map:
-                return updated_node.with_changes(attr=cst.Name(attr_map[original_node.attr.value]))
-            return updated_node
-
-    module = cst.parse_module(processed)
-    code = module.visit(RenameVisitor()).code
-
-    if now_file:  # 有文件名 → 写文件
-        with open(now_file, "w", encoding="utf-8") as f:
-            f.write(code)
-    else:         # 没有文件名 → 直接执行
-        import subprocess
-        exit(subprocess.run([sys.executable, "-c", code], stdout=sys.stdout).returncode)
 
 
 # 支持直接运行脚本
