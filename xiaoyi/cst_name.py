@@ -1,6 +1,7 @@
 import libcst as cst
 
 def rename_identifiers(processed: str, func_map: dict, attr_map: dict) -> str:
+    """替换函数名和属性名。"""
     class RenameVisitor(cst.CSTTransformer):
         # 替换函数名
         def leave_Name(self, original_node, updated_node):

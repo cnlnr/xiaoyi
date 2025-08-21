@@ -23,126 +23,15 @@ def cli():
         print("最多只能接受两个参数!")
         sys.exit(1)
 
-    import re, random, regex
-
-    # 生成占位符
-    def zwfhq():
-        length = 1
-        while True:
-            zwf = "<" + ''.join(chr(random.randint(0x9FFF, 0x10FFFF)) for _ in range(length)) + ">"
-            if zwf not in code:
-                break
-            length += 1
-        return zwf
-
-    # 使用两个独立的映射
-    quote_map = {}
-    bracket_map = {}
-
-    def replace_quotes(m):
-        full = m.group(0)
-        key = zwfhq()
-        quote_map[key] = full
-        return key
-
-    def replace_brackets(m):
-        full = m.group(0)
-        key = zwfhq()
-        bracket_map[key] = full
-        return key
-
-    # 第一步：replace引号和注释
-    quote_pattern = re.compile(r'''
-        (?P<dquote>"[^"\\]*(?:\\.[^"\\]*)*")     # 双引号
-        |
-        (?P<squote>'[^'\\]*(?:\\.[^'\\]*)*')     # 单引号
-        |
-        (?P<comment>\#.*)                        # 注释
-        |
-        (?P<walrus>:=)                           # 海象
-    ''', re.X)
-
-    # 第一步replace后（引号和注释）
-    processed = quote_pattern.sub(replace_quotes, code)
-
-    # 第二步：replace大括号中和括号
-    bracket_pattern = regex.compile(r'''
-        (?P<brace>\{(?:[^{}]|(?P>brace))*\})         # 递归匹配大括号
-        |
-        (?P<square>\[(?:[^\[\]]|(?P>square))*\])     # 递归匹配中括号
-    ''', re.X)
-
-    # 第二步replace后（大括号中和括号）
-    processed = bracket_pattern.sub(replace_brackets, processed)
-
-    # 去除反斜杠换行
-    processed = processed.replace("\\\n", "")
-
-    # 编译保留关键字
-    processed = processed.replace("导入", "import") \
-                         .replace("从", "from") \
-                         .replace("返回", "return") \
-                         .replace("跳出", "break") \
-                         .replace("继续", "continue") \
-                         .replace("全局", "global") \
-                         .replace("非局部", "nonlocal") \
-                         .replace("@静态方法", "@staticmethod") \
-                         .replace("@类方法", "@classmethod")
-
-    # 编译 class
-    lines = processed.splitlines(True)
-    out = []
-    for line in lines:
-        # 排除 if, else, try, except, finally, while, for, with 等关键字开头
-        match = re.match(r'^(\s*)(?!\b(?:if|else|elif|try|except|finally|while|for|with|def|class)\b)(\w+)\s*:(.*)$', line)
-        if match:
-            indent, name, tail = match.groups()
-            out.append(f"{indent}class {name}:{tail}\n")
-        else:
-            out.append(line)
-    processed = ''.join(out)
-
-    # 编译 def
-    def compile_functions(src: str) -> str:
-        pattern = regex.compile(
-            r"""(?smx)^([ \t]*)                     # 行首空白
-            (async\s+)?                             # 1. 可选 async
-            (\w+)                                   # 2. 真正的函数名
-            (                                       # 3. 括号+类型+冒号
-                \s*(?&b)\s*
-                (?:\s*->[\s\S]*?)?
-                \s*:
-            )
-            (?(DEFINE)(?<b>\((?:[^()]++|(?&b))*\)))
-            """,
-        )
-        return pattern.sub(r'\1\2def \3\4', src)
-
-    processed = compile_functions(processed)
-
-    # 分阶段还原：先还原括号，再还原引号
-    sorted_brackets = sorted(bracket_map.items(), key=lambda x: len(x[0]), reverse=True)
-    for key, original in sorted_brackets:
-        processed = processed.replace(key, original)
-
-    sorted_quotes = sorted(quote_map.items(), key=lambda x: len(x[0]), reverse=True)
-    for key, original in sorted_quotes:
-        processed = processed.replace(key, original)
-
-    # 定义函数名映射
-    func_map = {
-        "打印": "print",
-        "输入": "input",
-        "范围": "range",
-        "打开": "open",
-        "退出": "exit",
-    }
-
-    # 定义属性名映射
-    attr_map = {
-        "替换": "replace",
-        # 可以继续添加更多属性名映射
-    }
+    import xiaoyi
+    if now_file:  # 有文件名 → 写文件
+        code = xiaoyi.code(code)
+        with open(now_file, "w", encoding="utf-8") as f:
+            f.write(code)
+    else:         # 没有文件名 → 直接执行
+        code = xiaoyi.code(code)
+        import subprocess
+        exit(subprocess.run([sys.executable, "-c", code], stdout=sys.stdout).returncode)
 
 
 # 支持直接运行脚本
