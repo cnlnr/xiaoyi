@@ -23,7 +23,9 @@ def cli():
         print("最多只能接受两个参数!")
         sys.exit(1)
 
+
     import xiaoyi
+
     if now_file:  # 有文件名 → 写文件
         code = xiaoyi.code(code)
         with open(now_file, "w", encoding="utf-8") as f:
